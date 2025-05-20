@@ -1,5 +1,5 @@
 # lectura de librerias y modulos necesarios
-from analizador import AnalizadorAcademico
+from analizador import AnalizadorNota
 
 
 def main():
