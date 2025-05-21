@@ -5,7 +5,7 @@ from estudiante import Estudiante
 
 
 class AnalizadorNota:
-    def __init__(self, ruta_csv: str):
+    def __init__(self, ruta_csv: str) -> pd.DataFrame:
         self.df = pd.read_csv(ruta_csv)
         self.estudiantes = self._crear_estudiantes()
 
@@ -29,9 +29,10 @@ class AnalizadorNota:
         Calcula el promedio por asignatura
         """
         return {
-            "Matemáticas": round(self.df["matematicas"].mean(), 2),
-            "Física": round(self.df["fisica"].mean(), 2),
-            "Literatura": round(self.df["literatura"].mean(), 2),
+            # conversion a texto porque son floats de numpy
+            "Matemáticas": float(f"{self.df['matematicas'].mean():.2f}"),
+            "Física": float(f"{self.df['fisica'].mean():.2f}"),
+            "Literatura": float(f"{self.df['literatura'].mean():.2f}"),
         }
 
     def porcentaje_aprobacion(self) -> float:
@@ -39,7 +40,7 @@ class AnalizadorNota:
         Calcula el porcentaje de estudiantes aprobados
         """
         aprobados = sum(
-            1 for e in self.estudiantes if e.situacion_academica() == "Aprobado"
+            1 for e in self.estudiantes if e.obtener_sit() == "Aprobado"
         )
         return round((aprobados / len(self.estudiantes)) * 100, 2)
 
@@ -64,8 +65,8 @@ class AnalizadorNota:
             data.append(
                 {
                     "Estudiante": f"{est.nombre} {est.apellido}",
-                    "Promedio": est.calcular_promedio(),
-                    "Situación": est.situacion_academica(),
+                    "Promedio": est.calcular_prom(),
+                    "Situación": est.obtener_sit(),
                     "Matemáticas": est.nota_mat,
                     "Física": est.nota_fis,
                     "Literatura": est.nota_lit,

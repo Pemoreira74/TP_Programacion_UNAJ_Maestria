@@ -55,7 +55,7 @@ class Estudiante:
         """
         Determina si el estudiante está aprobado (nota >= 6)
         """
-        return "Aprobado" if self.calcular_promedio() >= 6 else "Reprobado"
+        return "Aprobado" if self.calcular_prom() >= 6 else "Reprobado"
 
     def __str__(self):
         """

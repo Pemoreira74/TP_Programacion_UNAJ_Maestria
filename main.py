@@ -4,10 +4,10 @@ from analizador import AnalizadorNota
 
 def main():
     # Configuración inicial
-    ruta_csv = "../datos/estudiantes.csv"
+    ruta_csv = "datos/estudiantes.csv"
 
     # Procesamiento de datos
-    analizador = AnalizadorAcademico(ruta_csv)
+    analizador = AnalizadorNota(ruta_csv)
     informe = analizador.generar_informe()
 
     # Resultados
