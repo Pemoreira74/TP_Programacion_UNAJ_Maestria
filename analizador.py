@@ -5,13 +5,23 @@ from estudiante import Estudiante
 
 
 class AnalizadorNota:
-    def __init__(self, ruta_csv: str) -> pd.DataFrame:
-        self.df = pd.read_csv(ruta_csv)
-        self.estudiantes = self._crear_estudiantes()
+    # Metodo constructor
+    def __init__(self, ruta_csv: str) -> None:
+        # Vamos a proteger la lectura del archivo
+        try:
+            self.df = pd.read_csv(ruta_csv)
+            self.estudiantes = self._crear_estudiantes()
+        # Si hay un error de lectura del archivo porque no existe
+        except FileNotFoundError:
+            raise FileNotFoundError(f"El archivo {ruta_csv} no fue encontrado")
+        # Si se produce cualquier otro error
+        except Exception as e:
+            raise Exception(f"Error al leer el archivo CSV: {str(e)}")
 
+    # Metodo crear lista de estudiantes (metodo privado, no expuesto)
     def _crear_estudiantes(self) -> List[Estudiante]:
         """
-        Crea objetos Estudiante a partir del DataFrame
+        Crea una lista de objetos Estudiante a partir del DataFrame
         """
         return [
             Estudiante(
@@ -24,6 +34,7 @@ class AnalizadorNota:
             for _, row in self.df.iterrows()
         ]
 
+    # Metodos publicos
     def calcular_promedios_asignaturas(self) -> Dict[str, float]:
         """
         Calcula el promedio por asignatura
