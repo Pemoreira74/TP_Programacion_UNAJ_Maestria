@@ -1,0 +1,54 @@
+Para hacer este ejercicio necesitamos una base de alumnos que respete el formato sugerido.
+Los vamos a generar de forma sintetica usando la libreria Faker.
+Eso se codifica en genrador.py
+alli primero elegimos que la generacion se realice en lenguaje español
+Y luego hacemos un loop con una cantidad de ciclos que esta harcodeada en la variable cantidad
+Abriendo un archivo datos/estudiantes.csv e ingresandole linea linea el nombre, el apellido 
+y una nota para cada materia con un numero al azar entre 0 y 10 redondeado a dos digitos decimales
+Se escribe el archivo a disco y se sale con un mensaje
+
+El objeto principal de nuestra aplicacion es Estudiante que se codifica en estudiante.py
+Este objeto tiene como atributos el nombre, el apellido y las tres notas
+En el constructor se toman esos paramentros y se cargan en los atributos pasandolos por unas
+funciones estaticas (ya que no necesitan a la instancia) que validan que sean strings y float
+Si eso no ocurre se lanzan excepciones especificas para la validacion
+Las funciones estaticas se decoran correspondientemente
+Estudiante tambien implementa los metodos:
+calcular_prom() que hace el calculo del promedio de las tres asignaturas
+obtener_sit(9 que evalua si el promedios es mayor o igual a 6
+Y se sobre-escribe (metamorfismo) el metodo magico __str__ para que al ejecutar un
+print(Estudiante) se obtenga un resumen del estado de los atributos del objeto
+
+El proceso de datos se rrealiza en analizador.py
+Que importa las librerias necesarias y el modulo estudiante,py
+En la clase Analizador el metodo constructor lee el archivo pasado como parametro
+y si no hay error (lo que dispara excepciones) lo carga en un DataFrame pandas
+
+Si bien se podian haber usado metodos de la libreria pandas para realizar los analisis siguientes
+se decidio operar en forma de lista o diccionario para hacerlo mas didactico donde se pueda hacerlo
+
+Para ello hay un metodo privado _crear_estudiante() que retorna una lista de objetos Estudiante
+Que se asignan al atributo .estudiantes del objeto Analizador
+
+Luego se calcula el promedio general de las asignaturas usando la funcione pandas mean()
+y realizando las conversiones a string y float para su posterior impresion. Se retorna un diccionario
+
+El metodo porcentaje_aprobacion() suma 1 por cada estudiante.obtener_sit() que sea igual a aprobado
+Y luego calcula el procenttaje dividiendolo por la longitud del atributo .estudiantes
+
+El metodo asignatura_max_min_rendimiento() obtiene el diccionario producido por el metodo
+calcular_promedios_asignaturas() y obtiene el maximo y minimo de los items de ese diccionario
+Retornando una tupla con el nombre d ela materia y la nota maxima
+
+Por ultimo el metodo generar_informe() retornara un data frame con las columnas agregadas 
+de promedio y situacion de cada alumno como filas de pandas
+
+En el main.py de la aplicacion importamos el modulo analizador.py
+especificamos el path al archivo de datos
+Instanciamos AnalizadorNota con ese archivo como argumento
+Y luego ejcutamos el metodo generar_informe() cargandolo en la variable informe
+para realizar una lista de estados y notas individuales d elos alumnos
+Por ultimo procedemos a realizar una impresion de los distintos metodos 
+que analizador tiene para informarnos de los promedios por asignaturas, porcentaje de aprobacion
+y de rendimiento por asignatura
+ 
